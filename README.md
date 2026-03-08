@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # spades_ordering_system
 
 A new Flutter project.
@@ -15,3 +16,7 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# SPADES_ORDERING
+MSA FIINAL PROJECT
+>>>>>>> e1c72363aedc90958290eec3bd6e0729a341da09
