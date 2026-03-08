@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "261261806531",
+    "project_id": "spades-ordering-system",
+    "storage_bucket": "spades-ordering-system.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261261806531:android:275300818c7fc1f0e70b76",
+        "android_client_info": {
+          "package_name": "com.example.spades_ordering_system"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM160SW8VPfoaFkmAH9XTZQaT9L3wQkMc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
