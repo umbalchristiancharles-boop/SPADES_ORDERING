@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../components/components.dart';
+import '../constants/responsive_utils.dart';
 import '../services/services.dart';
 
 class LoginPage extends StatefulWidget {
@@ -77,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+            padding: Responsive.screenPadding(context),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 400),
               child: Form(
@@ -89,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                     // Logo/Header
                     const Icon(
                       Icons.restaurant_menu,
-                      size: 80,
+                      size: 64,
                       color: Colors.orange,
                     ),
                     const SizedBox(height: 16),
@@ -97,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                       'Chicken Ordering',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 32,
+                        fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -106,13 +107,13 @@ class _LoginPageState extends State<LoginPage> {
                       'SYSTEM',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 20,
                         fontWeight: FontWeight.w300,
                         color: Colors.orange,
                         letterSpacing: 8,
                       ),
                     ),
-                    const SizedBox(height: 48),
+                    const SizedBox(height: 36),
 
                     // Login Card
                     GlowCard(
@@ -122,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                           const Text(
                             'Welcome Back',
                             style: TextStyle(
-                              fontSize: 24,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
@@ -132,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                             'Sign in to continue',
                             style: TextStyle(color: Colors.white70),
                           ),
-                          const SizedBox(height: 24),
+                          const SizedBox(height: 18),
 
                           // Email Field
                           StyledTextField(
@@ -150,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 12),
 
                           // Password Field
                           StyledTextField(
@@ -184,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                           ],
-                          const SizedBox(height: 24),
+                          const SizedBox(height: 18),
 
                           // Login Button
                           StyledButton(

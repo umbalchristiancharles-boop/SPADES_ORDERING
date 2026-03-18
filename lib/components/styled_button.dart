@@ -74,7 +74,7 @@ class _StyledButtonState extends State<StyledButton>
             return Transform.scale(
               scale: _scaleAnimation.value,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: _isPressed

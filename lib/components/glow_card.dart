@@ -16,8 +16,8 @@ class GlowCard extends StatefulWidget {
     required this.child,
     this.glowIntensity = 10.0,
     this.glowColor = Colors.orange,
-    this.padding = const EdgeInsets.all(24),
-    this.borderRadius = 20,
+    this.padding = const EdgeInsets.all(16),
+    this.borderRadius = 16,
   });
 
   @override

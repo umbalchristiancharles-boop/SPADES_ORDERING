@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../components/components.dart';
+import '../constants/responsive_utils.dart';
 import '../services/services.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -97,7 +98,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+            padding: Responsive.screenPadding(context),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 400),
               child: Form(
@@ -109,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     // Logo/Header
                     const Icon(
                       Icons.restaurant_menu,
-                      size: 80,
+                      size: 64,
                       color: Colors.orange,
                     ),
                     const SizedBox(height: 16),
@@ -117,7 +118,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       'Create Account',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 32,
+                        fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),

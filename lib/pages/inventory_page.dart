@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import '../components/components.dart';
 import '../models/chicken_item_model.dart';
+import '../constants/responsive_utils.dart';
 
 class InventoryPage extends StatelessWidget {
   const InventoryPage({super.key});
@@ -31,8 +32,8 @@ class InventoryPage extends StatelessWidget {
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
+gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: Responsive.gridCount(context),
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
               childAspectRatio: 1.5,

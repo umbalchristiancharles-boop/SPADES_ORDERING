@@ -5,8 +5,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../components/components.dart';
+import '../constants/responsive_utils.dart';
 import '../services/services.dart';
-
 class ProfilePage extends StatefulWidget {
   final String? userId;
 
@@ -120,19 +120,19 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
+      padding: Responsive.screenPadding(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Profile Module',
             style: TextStyle(
-              fontSize: 32,
+              fontSize: 28,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 18),
 
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -145,8 +145,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       // Avatar
                       Container(
-                        width: 120,
-                        height: 120,
+                        width: 100,
+                        height: 100,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           gradient: const LinearGradient(
@@ -162,17 +162,17 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         child: const Icon(
                           Icons.person,
-                          size: 60,
+                          size: 48,
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 18),
                       Text(
                         _emailController.text.isNotEmpty 
                           ? _emailController.text 
                           : 'user@example.com',
                         style: const TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -182,7 +182,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         'Premium Member',
                         style: TextStyle(color: Colors.orange),
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 18),
                       const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -212,7 +212,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             const Text(
                               'Profile Information',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
@@ -228,7 +228,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 18),
                         StyledTextField(
                           controller: _nameController,
                           label: 'Full Name',
@@ -236,7 +236,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           icon: Icons.person,
                           enabled: _isEditing,
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 12),
                         StyledTextField(
                           controller: _emailController,
                           label: 'Email',
@@ -244,7 +244,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           icon: Icons.email,
                           enabled: false, // Email is read-only from Firebase Auth
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 12),
                         StyledTextField(
                           controller: _phoneController,
                           label: 'Phone Number',
@@ -252,7 +252,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           icon: Icons.phone,
                           enabled: _isEditing,
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 12),
                         StyledTextField(
                           controller: _addressController,
                           label: 'Address',
@@ -260,7 +260,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           icon: Icons.location_on,
                           enabled: _isEditing,
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 18),
                         if (_isEditing)
                           SizedBox(
                             width: double.infinity,
@@ -281,7 +281,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 18),
 
           // Settings Section
           GlowCard(
@@ -292,12 +292,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 const Text(
                   'Settings',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 _buildSettingItem(Icons.notifications, 'Notifications', true),
                 _buildSettingItem(Icons.dark_mode, 'Dark Mode', true),
                 _buildSettingItem(Icons.language, 'Language', false),
@@ -354,7 +354,7 @@ class _StatWidget extends StatelessWidget {
         Text(
           value,
           style: const TextStyle(
-            fontSize: 24,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Colors.orange,
           ),

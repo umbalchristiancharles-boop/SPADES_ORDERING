@@ -1,7 +1,3 @@
-// ============================================================================
-// LANDING PAGE WITH DASHBOARD AND MAP/AREA SELECTION
-// ============================================================================
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../components/components.dart';
@@ -35,7 +31,6 @@ class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
     super.initState();
-    // Initialize inventory in Firestore if needed
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<FirestoreService>().initializeInventory();
     });
@@ -46,6 +41,104 @@ class _LandingPageState extends State<LandingPage> {
     final authService = context.read<AuthService>();
     final currentUser = authService.currentUser;
     _userEmail = currentUser?.email ?? 'user@example.com';
+
+    final width = MediaQuery.of(context).size.width;
+    final isMobile = width < 800;
+
+    Widget sidebar = Container(
+      width: 250,
+      decoration: const BoxDecoration(
+        color: Color(0xFF16213E),
+        border: Border(
+          right: BorderSide(color: Colors.orange, width: 1),
+        ),
+      ),
+      child: Column(
+        children: [
+          const SizedBox(height: 24),
+          // Logo
+          const Icon(
+            Icons.restaurant_menu,
+            size: 60,
+            color: Colors.orange,
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Chicken Order',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          const Text(
+            'SYSTEM',
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.orange,
+              letterSpacing: 4,
+            ),
+          ),
+          const SizedBox(height: 32),
+
+          _buildNavItem(0, Icons.dashboard, 'Dashboard'),
+          _buildNavItem(1, Icons.shopping_cart, 'Orders'),
+          _buildNavItem(2, Icons.inventory, 'Inventory'),
+          _buildNavItem(3, Icons.person, 'Profile'),
+          const Spacer(),
+
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: StyledButton(
+              text: 'Logout',
+              icon: Icons.logout,
+              color: Colors.red,
+              onPressed: () async {
+                await context.read<AuthService>().logout();
+              },
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
+    );
+
+    if (isMobile) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF16213E),
+          title: const Text('Chicken Order'),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: Row(
+                children: [
+                  const Icon(Icons.person, color: Colors.orange),
+                  const SizedBox(width: 8),
+                  Text(_userEmail ?? '' , style: const TextStyle(color: Colors.orange)),
+                ],
+              ),
+            )
+          ],
+        ),
+        drawer: Drawer(
+          child: sidebar,
+        ),
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFF1A1A2E),
+                Color(0xFF16213E),
+              ],
+            ),
+          ),
+          child: SafeArea(child: _getPage()),
+        ),
+      );
+    }
 
     return Scaffold(
       body: Container(
@@ -61,68 +154,7 @@ class _LandingPageState extends State<LandingPage> {
         ),
         child: Row(
           children: [
-            // Sidebar Navigation
-            Container(
-              width: 250,
-              decoration: const BoxDecoration(
-                color: Color(0xFF16213E),
-                border: Border(
-                  right: BorderSide(color: Colors.orange, width: 1),
-                ),
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(height: 24),
-                  // Logo
-                  const Icon(
-                    Icons.restaurant_menu,
-                    size: 60,
-                    color: Colors.orange,
-                  ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    'Chicken Order',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const Text(
-                    'SYSTEM',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.orange,
-                      letterSpacing: 4,
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-
-                  // Navigation Items
-                  _buildNavItem(0, Icons.dashboard, 'Dashboard'),
-                  _buildNavItem(1, Icons.shopping_cart, 'Orders'),
-                  _buildNavItem(2, Icons.inventory, 'Inventory'),
-                  _buildNavItem(3, Icons.person, 'Profile'),
-                  const Spacer(),
-
-                  // Logout Button
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: StyledButton(
-                      text: 'Logout',
-                      icon: Icons.logout,
-                      color: Colors.red,
-                      onPressed: () async {
-                        await context.read<AuthService>().logout();
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                ],
-              ),
-            ),
-
-            // Main Content
+            sidebar,
             Expanded(
               child: _getPage(),
             ),
@@ -178,7 +210,7 @@ class _LandingPageState extends State<LandingPage> {
       case 2:
         return const InventoryPage();
       case 3:
-        return ProfilePage(userId: widget.userId);
+        return ProfilePage(userId: widget.userId ?? '');
       default:
         return _buildDashboard();
     }
@@ -192,7 +224,6 @@ class _LandingPageState extends State<LandingPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -204,23 +235,6 @@ class _LandingPageState extends State<LandingPage> {
                   color: Colors.white,
                 ),
               ),
-              Row(
-                children: [
-                  // Firestore Test Button
-                  ElevatedButton.icon(
-                    onPressed: () async {
-                      final firestoreService = context.read<FirestoreService>();
-                      await firestoreService.testFirestoreWrite();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white,
-                    ),
-                    icon: const Icon(Icons.cloud_upload, size: 18),
-                    label: const Text('Test Firestore'),
-                  ),
-                  const SizedBox(width: 16),
-                  // User Email Container
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
@@ -239,115 +253,204 @@ class _LandingPageState extends State<LandingPage> {
                       ],
                     ),
                   ),
+            ],
+          ),
+          const SizedBox(height: 32),
+
+          Builder(builder: (context) {
+            final w = MediaQuery.of(context).size.width;
+            final narrow = w < 700;
+            if (narrow) {
+              return Column(
+                children: [
+                  StreamBuilder<int>(
+                    stream: firestoreService.getActiveOrdersCountStream(),
+                    builder: (context, snapshot) {
+                      final activeOrders = snapshot.data ?? 0;
+                      return GlowCard(
+                        glowColor: Colors.green,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.shopping_cart, color: Colors.green, size: 40),
+                            const SizedBox(height: 16),
+                            Text(
+                              '$activeOrders',
+                              style: const TextStyle(
+                                fontSize: 36,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const Text(
+                              'Active Orders',
+                              style: TextStyle(color: Colors.white70),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  StreamBuilder<int>(
+                    stream: firestoreService.getTotalStockStream(),
+                    builder: (context, snapshot) {
+                      final totalStock = snapshot.data ?? 0;
+                      return GlowCard(
+                        glowColor: Colors.blue,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.inventory_2, color: Colors.blue, size: 40),
+                            const SizedBox(height: 16),
+                            Text(
+                              '$totalStock',
+                              style: const TextStyle(
+                                fontSize: 36,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const Text(
+                              'Items in Stock',
+                              style: TextStyle(color: Colors.white70),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  StreamBuilder<double>(
+                    stream: firestoreService.getTodayRevenueStream(),
+                    builder: (context, snapshot) {
+                      final revenue = snapshot.data ?? 0.0;
+                      return GlowCard(
+                        glowColor: Colors.purple,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.attach_money, color: Colors.purple, size: 40),
+                            const SizedBox(height: 16),
+                            Text(
+                              '\$${revenue.toStringAsFixed(2)}',
+                              style: const TextStyle(
+                                fontSize: 36,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const Text(
+                              'Today\'s Revenue',
+                              style: TextStyle(color: Colors.white70),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 32),
+              );
+            }
 
-          // Stats Cards with Real-time Data from Firestore
-          Row(
-            children: [
-              // Active Orders Card
-              Expanded(
-                child: StreamBuilder<int>(
-                  stream: firestoreService.getActiveOrdersCountStream(),
-                  builder: (context, snapshot) {
-                    final activeOrders = snapshot.data ?? 0;
-                    return GlowCard(
-                      glowColor: Colors.green,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Icon(Icons.shopping_cart, color: Colors.green, size: 40),
-                          const SizedBox(height: 16),
-                          Text(
-                            '$activeOrders',
-                            style: const TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+            return Row(
+              children: [
+                Expanded(
+                  child: StreamBuilder<int>(
+                    stream: firestoreService.getActiveOrdersCountStream(),
+                    builder: (context, snapshot) {
+                      final activeOrders = snapshot.data ?? 0;
+                      return GlowCard(
+                        glowColor: Colors.green,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.shopping_cart, color: Colors.green, size: 40),
+                            const SizedBox(height: 16),
+                            Text(
+                              '$activeOrders',
+                              style: const TextStyle(
+                                fontSize: 36,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                          const Text(
-                            'Active Orders',
-                            style: TextStyle(color: Colors.white70),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(width: 16),
-              // Items in Stock Card
-              Expanded(
-                child: StreamBuilder<int>(
-                  stream: firestoreService.getTotalStockStream(),
-                  builder: (context, snapshot) {
-                    final totalStock = snapshot.data ?? 0;
-                    return GlowCard(
-                      glowColor: Colors.blue,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Icon(Icons.inventory_2, color: Colors.blue, size: 40),
-                          const SizedBox(height: 16),
-                          Text(
-                            '$totalStock',
-                            style: const TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                            const Text(
+                              'Active Orders',
+                              style: TextStyle(color: Colors.white70),
                             ),
-                          ),
-                          const Text(
-                            'Items in Stock',
-                            style: TextStyle(color: Colors.white70),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              // Today's Revenue Card
-              Expanded(
-                child: StreamBuilder<double>(
-                  stream: firestoreService.getTodayRevenueStream(),
-                  builder: (context, snapshot) {
-                    final revenue = snapshot.data ?? 0.0;
-                    return GlowCard(
-                      glowColor: Colors.purple,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Icon(Icons.attach_money, color: Colors.purple, size: 40),
-                          const SizedBox(height: 16),
-                          Text(
-                            '\$${revenue.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                const SizedBox(width: 16),
+                Expanded(
+                  child: StreamBuilder<int>(
+                    stream: firestoreService.getTotalStockStream(),
+                    builder: (context, snapshot) {
+                      final totalStock = snapshot.data ?? 0;
+                      return GlowCard(
+                        glowColor: Colors.blue,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.inventory_2, color: Colors.blue, size: 40),
+                            const SizedBox(height: 16),
+                            Text(
+                              '$totalStock',
+                              style: const TextStyle(
+                                fontSize: 36,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                          const Text(
-                            'Today\'s Revenue',
-                            style: TextStyle(color: Colors.white70),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+                            const Text(
+                              'Items in Stock',
+                              style: TextStyle(color: Colors.white70),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
-          ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: StreamBuilder<double>(
+                    stream: firestoreService.getTodayRevenueStream(),
+                    builder: (context, snapshot) {
+                      final revenue = snapshot.data ?? 0.0;
+                      return GlowCard(
+                        glowColor: Colors.purple,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.attach_money, color: Colors.purple, size: 40),
+                            const SizedBox(height: 16),
+                            Text(
+                              '\$${revenue.toStringAsFixed(2)}',
+                              style: const TextStyle(
+                                fontSize: 36,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const Text(
+                              'Today\'s Revenue',
+                              style: TextStyle(color: Colors.white70),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          }),
           const SizedBox(height: 32),
-
-          // Map/Area Selection Section
           const Text(
             'Select Delivery Area',
             style: TextStyle(
@@ -376,18 +479,25 @@ class _LandingPageState extends State<LandingPage> {
                 ),
                 const SizedBox(height: 24),
 
-                // Simple Area Representation (Grid)
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    childAspectRatio: 1.5,
-                  ),
-                  itemCount: _areas.length,
-                  itemBuilder: (context, index) {
+                Builder(builder: (context) {
+                  final w = MediaQuery.of(context).size.width;
+                  int cross = 3;
+                  if (w < 600) {
+                    cross = 1;
+                  } else if (w < 1000) {
+                    cross = 2;
+                  }
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: cross,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      childAspectRatio: 1.5,
+                    ),
+                    itemCount: _areas.length,
+                    itemBuilder: (context, index) {
                     final isSelected = _selectedArea == _areas[index];
                     return MouseRegion(
                       cursor: SystemMouseCursors.click,
@@ -448,7 +558,8 @@ class _LandingPageState extends State<LandingPage> {
                       ),
                     );
                   },
-                ),
+                  );
+                }),
 
                 if (_selectedArea != null) ...[
                   const SizedBox(height: 24),
