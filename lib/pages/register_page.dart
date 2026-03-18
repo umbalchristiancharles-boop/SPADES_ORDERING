@@ -1,7 +1,3 @@
-// ============================================================================
-// REGISTER PAGE - With Firebase Authentication
-// ============================================================================
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../components/components.dart';
@@ -107,7 +103,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Logo/Header
                     const Icon(
                       Icons.restaurant_menu,
                       size: 64,
@@ -135,7 +130,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     const SizedBox(height: 48),
 
-                    // Register Card
                     GlowCard(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -154,8 +148,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             style: TextStyle(color: Colors.white70),
                           ),
                           const SizedBox(height: 24),
-
-                          // Email Field
                           StyledTextField(
                             controller: _nameController,
                             label: 'Full Name',
@@ -169,8 +161,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             },
                           ),
                           const SizedBox(height: 16),
-
-                          // Email Field
                           StyledTextField(
                             controller: _emailController,
                             label: 'Email',
@@ -188,7 +178,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           const SizedBox(height: 16),
 
-                          // Password Field
                           StyledTextField(
                             controller: _passwordController,
                             label: 'Password',
@@ -210,7 +199,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           const SizedBox(height: 16),
 
-                          // Confirm Password Field
                           StyledTextField(
                             controller: _confirmPasswordController,
                             label: 'Confirm Password',
@@ -247,7 +235,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           ],
                           const SizedBox(height: 24),
 
-                          // Register Button
                           StyledButton(
                             text: 'Register',
                             icon: Icons.person_add,
@@ -255,8 +242,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             onPressed: () => _handleRegister(),
                           ),
                           const SizedBox(height: 16),
-
-                          // Login Link
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

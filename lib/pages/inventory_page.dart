@@ -1,7 +1,3 @@
-// ============================================================================
-// INVENTORY MODULE PAGE
-// ============================================================================
-
 import 'package:flutter/material.dart';
 import '../components/components.dart';
 import '../models/chicken_item_model.dart';

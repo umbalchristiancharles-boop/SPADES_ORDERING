@@ -1,7 +1,3 @@
-// ============================================================================
-// PROFILE MODULE PAGE
-// ============================================================================
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../components/components.dart';
@@ -42,10 +38,8 @@ class _ProfilePageState extends State<ProfilePage> {
       final firestoreService = context.read<FirestoreService>();
       final authService = context.read<AuthService>();
       
-      // Get user profile from Firestore
       final userData = await firestoreService.getUserProfile(widget.userId!);
       
-      // Get email from Firebase Auth
       final currentUser = authService.currentUser;
       
       if (mounted) {
@@ -283,7 +277,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const SizedBox(height: 18),
 
-          // Settings Section
           GlowCard(
             glowColor: Colors.teal,
             child: Column(

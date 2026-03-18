@@ -1,13 +1,3 @@
-// ============================================================================
-// FIREBASE TEST PAGE - For testing Auth and Firestore functionality
-// ============================================================================
-// This page can be used to test:
-// 1. Email/Password Registration
-// 2. Email/Password Login
-// 3. Firestore User Profile Save/Read
-// 4. Firestore Order Creation
-// ============================================================================
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,7 +39,6 @@ class _FirebaseTestPageState extends State<FirebaseTestPage> {
     });
   }
 
-  // Test 1: Check Firebase Connection
   Future<void> testFirebaseConnection() async {
     _addResult('🔄 Testing Firebase Connection...');
     try {
@@ -61,7 +50,6 @@ class _FirebaseTestPageState extends State<FirebaseTestPage> {
     }
   }
 
-  // Test 2: Test Registration
   Future<void> testRegistration() async {
     _addResult('🔄 Testing Registration...');
     setState(() => _isLoading = true);
@@ -81,7 +69,6 @@ class _FirebaseTestPageState extends State<FirebaseTestPage> {
     setState(() => _isLoading = false);
   }
 
-  // Test 3: Test Login
   Future<void> testLogin() async {
     _addResult('🔄 Testing Login...');
     setState(() => _isLoading = true);
@@ -100,7 +87,6 @@ class _FirebaseTestPageState extends State<FirebaseTestPage> {
     setState(() => _isLoading = false);
   }
 
-  // Test 4: Test Logout
   Future<void> testLogout() async {
     _addResult('🔄 Testing Logout...');
     setState(() => _isLoading = true);
@@ -116,7 +102,6 @@ class _FirebaseTestPageState extends State<FirebaseTestPage> {
     setState(() => _isLoading = false);
   }
 
-  // Test 5: Test Firestore User Profile Save
   Future<void> testFirestoreUserProfileSave() async {
     _addResult('🔄 Testing Firestore User Profile Save...');
     setState(() => _isLoading = true);
@@ -148,7 +133,6 @@ class _FirebaseTestPageState extends State<FirebaseTestPage> {
     setState(() => _isLoading = false);
   }
 
-  // Test 6: Test Firestore User Profile Read
   Future<void> testFirestoreUserProfileRead() async {
     _addResult('🔄 Testing Firestore User Profile Read...');
     setState(() => _isLoading = true);
@@ -178,7 +162,6 @@ class _FirebaseTestPageState extends State<FirebaseTestPage> {
     setState(() => _isLoading = false);
   }
 
-  // Test 7: Test Firestore Order Creation
   Future<void> testFirestoreOrderCreate() async {
     _addResult('🔄 Testing Firestore Order Create...');
     setState(() => _isLoading = true);
@@ -196,7 +179,7 @@ class _FirebaseTestPageState extends State<FirebaseTestPage> {
       
       final orderId = await firestoreService.createOrder(
         userId: user.uid,
-        items: {'1': 2, '3': 1}, // Item IDs to quantities
+        items: {'1': 2, '3': 1}, 
         total: 29.97,
         deliveryArea: 'Test Area',
       );
@@ -209,7 +192,6 @@ class _FirebaseTestPageState extends State<FirebaseTestPage> {
     setState(() => _isLoading = false);
   }
 
-  // Test 8: Run All Tests
   Future<void> runAllTests() async {
     _clearResults();
     await testFirebaseConnection();
@@ -233,7 +215,6 @@ class _FirebaseTestPageState extends State<FirebaseTestPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Test Credentials Input
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -278,7 +259,6 @@ class _FirebaseTestPageState extends State<FirebaseTestPage> {
             ),
             const SizedBox(height: 16),
             
-            // Individual Test Buttons
             Wrap(
               spacing: 8,
               runSpacing: 8,
@@ -319,7 +299,6 @@ class _FirebaseTestPageState extends State<FirebaseTestPage> {
             ),
             const SizedBox(height: 8),
             
-            // Firestore Test Buttons
             Wrap(
               spacing: 8,
               runSpacing: 8,
@@ -352,7 +331,6 @@ class _FirebaseTestPageState extends State<FirebaseTestPage> {
             ),
             const SizedBox(height: 16),
             
-            // Run All Tests Button
             ElevatedButton.icon(
               onPressed: _isLoading ? null : runAllTests,
               icon: const Icon(Icons.play_arrow),
@@ -370,7 +348,6 @@ class _FirebaseTestPageState extends State<FirebaseTestPage> {
             
             const SizedBox(height: 16),
             
-            // Results Display
             Card(
               color: Colors.black87,
               child: Padding(
@@ -415,7 +392,6 @@ class _FirebaseTestPageState extends State<FirebaseTestPage> {
             
             const SizedBox(height: 16),
             
-            // Instructions Card
             Card(
               color: Colors.amber.shade900,
               child: const Padding(

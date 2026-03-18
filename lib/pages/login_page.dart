@@ -1,7 +1,3 @@
-// ============================================================================
-// LOGIN PAGE - With Firebase Authentication
-// ============================================================================
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../components/components.dart';
