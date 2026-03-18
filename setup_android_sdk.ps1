@@ -1,4 +1,4 @@
-# Clean Android SDK Setup Script for Flutter
+y# Clean Android SDK Setup Script for Flutter
 # Run this in PowerShell as Administrator if needed
 
 # 1) Set SDK root

@@ -1,7 +1,3 @@
-// ============================================================================
-// ORDER MODULE PAGE
-// ============================================================================
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../components/components.dart';
@@ -46,7 +42,6 @@ class _OrderPageState extends State<OrderPage> {
     return total;
   }
 
-  // Show success dialog after order placement
   void _showSuccessDialog() {
     showDialog(
       context: context,
@@ -75,7 +70,6 @@ class _OrderPageState extends State<OrderPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Success Icon with animation
                 TweenAnimationBuilder<double>(
                   tween: Tween(begin: 0.0, end: 1.0),
                   duration: const Duration(milliseconds: 500),
@@ -141,17 +135,15 @@ class _OrderPageState extends State<OrderPage> {
 
   Future<void> _placeOrder() async {
     if (_cart.isEmpty) return;
-    if (_isSubmitting) return; // prevent double submissions
+    if (_isSubmitting) return;
     final authService = context.read<AuthService>();
     final userId = authService.currentUser?.uid ?? 'unknown';
     final firestore = context.read<FirestoreService>();
 
-    // Map items by name so Firestore stores readable keys
     final itemsForSave = Map<String, int>.fromEntries(
       _cart.entries.map((e) => MapEntry(_menuItems[e.key].name, e.value)),
     );
 
-    // Ensure user is logged in before saving
     if (authService.currentUser == null) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -165,8 +157,6 @@ class _OrderPageState extends State<OrderPage> {
 
     try {
       _isSubmitting = true;
-      // Debug log prior to saving
-      // ignore: avoid_print
       print('OrderPage: saving order for user $userId items=$itemsForSave total=$_totalPrice');
 
       final orderId = await firestore.createOrder(
@@ -175,13 +165,10 @@ class _OrderPageState extends State<OrderPage> {
         total: _totalPrice,
       );
 
-      // Log saved id
-      // ignore: avoid_print
       print('OrderPage: order saved id=$orderId');
 
       if (!mounted) return;
 
-      // Show successful confirmation dialog
       _showSuccessDialog();
 
       setState(() {
@@ -233,7 +220,6 @@ class _OrderPageState extends State<OrderPage> {
           ),
           const SizedBox(height: 24),
 
-          // Menu Items
           const Text(
             'Menu',
             style: TextStyle(
@@ -305,7 +291,6 @@ class _OrderPageState extends State<OrderPage> {
           ),
           const SizedBox(height: 32),
 
-          // Cart Section
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -387,7 +372,6 @@ class _OrderPageState extends State<OrderPage> {
               ),
               const SizedBox(width: 24),
 
-              // Orders List
               Expanded(
                 child: GlowCard(
                   glowColor: Colors.blue,
@@ -469,4 +453,3 @@ class _OrderPageState extends State<OrderPage> {
     );
   }
 }
-
